@@ -1,0 +1,325 @@
+/* =====================================
+   Binary Tree Traversal Simulator
+   CSS for 15 Nodes
+   ===================================== */
+
+
+/* Reset */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* Body */
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f2f6ff;
+    text-align: center;
+    min-height: 100vh;
+}
+
+
+/* Main Container */
+
+.container {
+    width: 95%;
+    max-width: 1100px;
+    margin: 25px auto;
+}
+
+
+/* Heading */
+
+h1 {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+
+/* Description */
+
+.description {
+    font-size: 17px;
+    margin-bottom: 20px;
+}
+
+
+/* =====================================
+   Tree Area
+   ===================================== */
+
+.tree-container {
+    position: relative;
+
+    width: 100%;
+
+    height: 330px;
+
+    margin: 10px auto 20px;
+
+    background: white;
+
+    border-radius: 15px;
+
+    box-shadow:
+        0 3px 10px rgba(0, 0, 0, 0.15);
+
+    overflow: hidden;
+}
+
+
+/* =====================================
+   Tree Nodes
+   ===================================== */
+
+.node {
+    position: absolute;
+
+    width: 48px;
+    height: 48px;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    background: white;
+
+    border: 3px solid black;
+
+    font-size: 17px;
+
+    font-weight: bold;
+
+    transition:
+        transform 0.3s,
+        background-color 0.3s,
+        box-shadow 0.3s;
+
+    z-index: 2;
+}
+
+
+/* =====================================
+   Current Node
+   ===================================== */
+
+.node.active {
+
+    background: yellow;
+
+    transform: scale(1.25);
+
+    box-shadow:
+        0 0 15px rgba(0, 0, 0, 0.4);
+
+}
+
+
+/* =====================================
+   Visited Node
+   ===================================== */
+
+.node.visited {
+
+    background: lightgreen;
+
+}
+
+
+/* =====================================
+   Control Buttons
+   ===================================== */
+
+.controls {
+
+    margin: 20px auto;
+
+    display: flex;
+
+    justify-content: center;
+
+    flex-wrap: wrap;
+
+    gap: 10px;
+
+}
+
+
+button {
+
+    padding: 11px 20px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: #333;
+
+    color: white;
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+
+}
+
+
+button:hover {
+
+    background: #555;
+
+    transform: translateY(-2px);
+
+}
+
+
+button:active {
+
+    transform: scale(0.95);
+
+}
+
+
+/* =====================================
+   Status Box
+   ===================================== */
+
+.status {
+
+    background: white;
+
+    padding: 15px;
+
+    margin: 15px auto;
+
+    max-width: 700px;
+
+    border-radius: 10px;
+
+    box-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.15);
+
+}
+
+
+.status h2 {
+
+    margin-bottom: 8px;
+
+    font-size: 20px;
+
+}
+
+
+#currentNode {
+
+    font-size: 28px;
+
+    font-weight: bold;
+
+}
+
+
+/* =====================================
+   Result Box
+   ===================================== */
+
+.result {
+
+    background: white;
+
+    padding: 15px;
+
+    margin: 15px auto;
+
+    max-width: 900px;
+
+    border-radius: 10px;
+
+    box-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.15);
+
+}
+
+
+.result h2 {
+
+    margin-bottom: 8px;
+
+    font-size: 20px;
+
+}
+
+
+#result {
+
+    font-size: 19px;
+
+    font-weight: bold;
+
+    line-height: 1.8;
+
+    word-wrap: break-word;
+
+}
+
+
+/* =====================================
+   Mobile Responsive Design
+   ===================================== */
+
+@media (max-width: 700px) {
+
+    h1 {
+        font-size: 24px;
+    }
+
+
+    .description {
+        font-size: 14px;
+    }
+
+
+    .tree-container {
+        height: 300px;
+    }
+
+
+    .node {
+
+        width: 40px;
+        height: 40px;
+
+        font-size: 14px;
+
+    }
+
+
+    button {
+
+        padding: 9px 13px;
+
+        font-size: 14px;
+
+    }
+
+
+    #result {
+
+        font-size: 15px;
+
+    }
+
+}

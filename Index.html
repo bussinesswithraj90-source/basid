@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Binary Tree Traversal Simulator</title>
+
+    <!-- Connect CSS -->
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================
+         MAIN CONTAINER
+         ===================================== -->
+
+    <div class="container">
+
+
+        <!-- Project Title -->
+
+        <h1>
+            🌳 Binary Tree Traversal Simulator
+        </h1>
+
+
+        <!-- Project Description -->
+
+        <p class="description">
+
+            An interactive micro project to visualize
+            Binary Tree Traversal using JavaScript.
+
+        </p>
+
+
+
+        <!-- =====================================
+             BINARY TREE
+             ===================================== -->
+
+        <div class="tree-section">
+
+            <h2>Binary Tree</h2>
+
+            <div id="tree"
+                 class="tree-container">
+
+                <!--
+                    Tree nodes are created
+                    automatically by JavaScript
+                -->
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =====================================
+             TRAVERSAL CONTROLS
+             ===================================== -->
+
+        <div class="controls">
+
+            <h2>Select Traversal</h2>
+
+
+            <div class="buttons">
+
+                <button
+                    onclick="startTraversal('inorder')">
+
+                    Inorder
+
+                </button>
+
+
+                <button
+                    onclick="startTraversal('preorder')">
+
+                    Preorder
+
+                </button>
+
+
+                <button
+                    onclick="startTraversal('postorder')">
+
+                    Postorder
+
+                </button>
+
+
+                <button
+                    onclick="resetTree()">
+
+                    Reset
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =====================================
+             CURRENT NODE
+             ===================================== -->
+
+        <div class="status">
+
+            <h2>Current Node</h2>
+
+            <div id="currentNode">
+
+                -
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =====================================
+             TRAVERSAL RESULT
+             ===================================== -->
+
+        <div class="result">
+
+            <h2>Traversal Result</h2>
+
+            <p id="result">
+
+                -
+
+            </p>
+
+        </div>
+
+
+
+        <!-- =====================================
+             TRAVERSAL INFORMATION
+             ===================================== -->
+
+        <div class="info">
+
+            <h2>Traversal Rules</h2>
+
+
+            <div class="rules">
+
+                <div>
+
+                    <h3>Inorder</h3>
+
+                    <p>
+                        Left → Root → Right
+                    </p>
+
+                </div>
+
+
+                <div>
+
+                    <h3>Preorder</h3>
+
+                    <p>
+                        Root → Left → Right
+                    </p>
+
+                </div>
+
+
+                <div>
+
+                    <h3>Postorder</h3>
+
+                    <p>
+                        Left → Right → Root
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =====================================
+             PROJECT FOOTER
+             ===================================== -->
+
+        <footer>
+
+            <p>
+                Binary Tree Traversal Simulator
+                | HTML | CSS | JavaScript
+            </p>
+
+        </footer>
+
+
+    </div>
+
+
+
+    <!-- =====================================
+         CONNECT JAVASCRIPT
+         ===================================== -->
+
+    <script src="script.js"></script>
+
+
+</body>
+
+</html>
