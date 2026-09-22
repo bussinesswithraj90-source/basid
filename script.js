@@ -1,385 +1,124 @@
-// ============================================
-// BINARY TREE TRAVERSAL SIMULATOR
-// 15 NODE VERSION
-// ============================================
+const header = document.querySelector('#site-header');
+const progress = document.querySelector('#scroll-progress');
+const navLinks = document.querySelector('#nav-links');
+const menuToggle = document.querySelector('.menu-toggle');
+const themeToggle = document.querySelector('.theme-toggle');
+const backTop = document.querySelector('.back-top');
+const toast = document.querySelector('.toast');
 
-
-// ============================================
-// 1. CREATE TREE NODE
-// ============================================
-
-class TreeNode {
-
-    constructor(value) {
-
-        this.value = value;
-
-        this.left = null;
-
-        this.right = null;
-
-    }
-
-}
-
-
-// ============================================
-// 2. CREATE 15-NODE BINARY TREE
-// ============================================
-
-const root = new TreeNode(1);
-
-root.left = new TreeNode(2);
-root.right = new TreeNode(3);
-
-root.left.left = new TreeNode(4);
-root.left.right = new TreeNode(5);
-
-root.right.left = new TreeNode(6);
-root.right.right = new TreeNode(7);
-
-root.left.left.left = new TreeNode(8);
-root.left.left.right = new TreeNode(9);
-
-root.left.right.left = new TreeNode(10);
-root.left.right.right = new TreeNode(11);
-
-root.right.left.left = new TreeNode(12);
-root.right.left.right = new TreeNode(13);
-
-root.right.right.left = new TreeNode(14);
-root.right.right.right = new TreeNode(15);
-
-
-// ============================================
-// 3. STORE HTML NODE ELEMENTS
-// ============================================
-
-let nodeElements = {};
-
-
-// ============================================
-// 4. NODE POSITIONS
-// ============================================
-
-const positions = {
-
-    1:  { x: 50, y: 10 },
-
-    2:  { x: 30, y: 80 },
-    3:  { x: 70, y: 80 },
-
-    4:  { x: 20, y: 150 },
-    5:  { x: 40, y: 150 },
-    6:  { x: 60, y: 150 },
-    7:  { x: 80, y: 150 },
-
-    8:  { x: 15, y: 220 },
-    9:  { x: 25, y: 220 },
-
-    10: { x: 35, y: 220 },
-    11: { x: 45, y: 220 },
-
-    12: { x: 55, y: 220 },
-    13: { x: 65, y: 220 },
-
-    14: { x: 75, y: 220 },
-    15: { x: 85, y: 220 }
-
+const showToast = (message) => {
+  toast.textContent = message;
+  toast.classList.add('show');
+  window.clearTimeout(showToast.timer);
+  showToast.timer = window.setTimeout(() => toast.classList.remove('show'), 2600);
 };
 
+const updateScrollState = () => {
+  const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+  const percentage = scrollable > 0 ? (window.scrollY / scrollable) * 100 : 0;
+  progress.style.width = `${percentage}%`;
+  header.classList.toggle('scrolled', window.scrollY > 24);
+  backTop.classList.toggle('visible', window.scrollY > 500);
+};
+window.addEventListener('scroll', updateScrollState, { passive: true });
+updateScrollState();
 
-// ============================================
-// 5. DISPLAY TREE
-// ============================================
+menuToggle.addEventListener('click', () => {
+  const isOpen = navLinks.classList.toggle('open');
+  menuToggle.classList.toggle('open', isOpen);
+  menuToggle.setAttribute('aria-expanded', String(isOpen));
+  menuToggle.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
+});
+document.querySelectorAll('.nav-link').forEach((link) => link.addEventListener('click', () => {
+  navLinks.classList.remove('open');
+  menuToggle.classList.remove('open');
+  menuToggle.setAttribute('aria-expanded', 'false');
+}));
 
-function displayTree() {
+const storedTheme = localStorage.getItem('bashid-theme');
+if (storedTheme === 'light') document.documentElement.dataset.theme = 'light';
+themeToggle.addEventListener('click', () => {
+  const light = document.documentElement.dataset.theme !== 'light';
+  document.documentElement.dataset.theme = light ? 'light' : '';
+  localStorage.setItem('bashid-theme', light ? 'light' : 'dark');
+  themeToggle.setAttribute('aria-label', light ? 'Toggle dark theme' : 'Toggle light theme');
+});
 
-    const tree = document.getElementById("tree");
-
-    tree.innerHTML = "";
-
-    nodeElements = {};
-
-
-    const nodes = [
-
-        1, 2, 3,
-        4, 5, 6, 7,
-        8, 9, 10, 11,
-        12, 13, 14, 15
-
-    ];
-
-
-    nodes.forEach(value => {
-
-        const node = document.createElement("div");
-
-        node.className = "node";
-
-        node.innerText = value;
-
-        node.id = "node-" + value;
-
-
-        // Position node
-
-        node.style.left =
-            `calc(${positions[value].x}% - 24px)`;
-
-        node.style.top =
-            `${positions[value].y}px`;
-
-
-        tree.appendChild(node);
-
-
-        nodeElements[value] = node;
-
-    });
-
-}
-
-
-// ============================================
-// 6. INORDER TRAVERSAL
-// LEFT → ROOT → RIGHT
-// ============================================
-
-function inorder(node, result) {
-
-    if (node === null) {
-
-        return;
-
+const revealObserver = new IntersectionObserver((entries, observer) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
     }
-
-
-    // Visit left subtree
-
-    inorder(node.left, result);
-
-
-    // Visit root
-
-    result.push(node.value);
-
-
-    // Visit right subtree
-
-    inorder(node.right, result);
-
-}
-
-
-// ============================================
-// 7. PREORDER TRAVERSAL
-// ROOT → LEFT → RIGHT
-// ============================================
-
-function preorder(node, result) {
-
-    if (node === null) {
-
-        return;
-
-    }
-
-
-    // Visit root
-
-    result.push(node.value);
-
-
-    // Visit left subtree
-
-    preorder(node.left, result);
-
-
-    // Visit right subtree
-
-    preorder(node.right, result);
-
-}
-
-
-// ============================================
-// 8. POSTORDER TRAVERSAL
-// LEFT → RIGHT → ROOT
-// ============================================
-
-function postorder(node, result) {
-
-    if (node === null) {
-
-        return;
-
-    }
-
-
-    // Visit left subtree
-
-    postorder(node.left, result);
-
-
-    // Visit right subtree
-
-    postorder(node.right, result);
-
-
-    // Visit root
-
-    result.push(node.value);
-
-}
-
-
-// ============================================
-// 9. START TRAVERSAL
-// ============================================
-
-async function startTraversal(type) {
-
-
-    // Reset previous traversal
-
-    resetTree();
-
-
-    let traversal = [];
-
-
-    // Select traversal method
-
-    if (type === "inorder") {
-
-        inorder(root, traversal);
-
-    }
-
-    else if (type === "preorder") {
-
-        preorder(root, traversal);
-
-    }
-
-    else if (type === "postorder") {
-
-        postorder(root, traversal);
-
-    }
-
-
-    let result = [];
-
-
-    // ========================================
-    // Animate each node
-    // ========================================
-
-    for (let value of traversal) {
-
-
-        const node = nodeElements[value];
-
-
-        // Highlight current node
-
-        node.classList.add("active");
-
-
-        // Show current node
-
-        document.getElementById("currentNode")
-            .innerText = value;
-
-
-        // Add value to result
-
-        result.push(value);
-
-
-        document.getElementById("result")
-            .innerText = result.join(" → ");
-
-
-        // Wait 1 second
-
-        await sleep(1000);
-
-
-        // Remove yellow
-
-        node.classList.remove("active");
-
-
-        // Make green
-
-        node.classList.add("visited");
-
-    }
-
-
-    // ========================================
-    // Traversal completed
-    // ========================================
-
-    document.getElementById("currentNode")
-        .innerText = "Completed";
-
-}
-
-
-// ============================================
-// 10. DELAY FUNCTION
-// ============================================
-
-function sleep(milliseconds) {
-
-    return new Promise(resolve => {
-
-        setTimeout(resolve, milliseconds);
-
-    });
-
-}
-
-
-// ============================================
-// 11. RESET TREE
-// ============================================
-
-function resetTree() {
-
-
-    // Remove active and visited styles
-
-    Object.values(nodeElements).forEach(node => {
-
-        node.classList.remove("active");
-
-        node.classList.remove("visited");
-
-    });
-
-
-    // Reset current node
-
-    document.getElementById("currentNode")
-        .innerText = "-";
-
-
-    // Reset result
-
-    document.getElementById("result")
-        .innerText = "-";
-
-}
-
-
-// ============================================
-// 12. DISPLAY TREE WHEN PAGE LOADS
-// ============================================
-
-displayTree();
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach((element) => revealObserver.observe(element));
+
+const sections = [...document.querySelectorAll('main section[id]')];
+const sectionObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (!entry.isIntersecting) return;
+    document.querySelectorAll('.nav-link').forEach((link) => link.classList.toggle('active', link.getAttribute('href') === `#${entry.target.id}`));
+  });
+}, { rootMargin: '-35% 0px -55% 0px' });
+sections.forEach((section) => sectionObserver.observe(section));
+
+backTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+document.querySelectorAll('.placeholder-link').forEach((link) => link.addEventListener('click', (event) => {
+  if (link.getAttribute('href') === '#') {
+    event.preventDefault();
+    showToast(`Replace this placeholder with your ${link.dataset.label || 'link'}.`);
+  }
+}));
+
+const terminalOutput = document.querySelector('#terminal-output');
+const terminalLines = [
+  ['$ whoami', 'bashid-ahmed'],
+  ['$ skills', 'HTML · CSS · JavaScript · Web Development · Automation'],
+  ['$ current_focus', 'Building useful digital experiences'],
+];
+let terminalIndex = 0;
+const typeTerminalLine = () => {
+  if (terminalIndex >= terminalLines.length) return;
+  const [command, output] = terminalLines[terminalIndex];
+  const line = document.createElement('div');
+  line.className = 'terminal-line';
+  line.innerHTML = `<span class="prompt"></span><span class="output"></span>`;
+  terminalOutput.appendChild(line);
+  const prompt = line.querySelector('.prompt');
+  const outputElement = line.querySelector('.output');
+  let characterIndex = 0;
+  const typeCommand = () => {
+    prompt.textContent = command.slice(0, characterIndex);
+    characterIndex += 1;
+    if (characterIndex <= command.length) window.setTimeout(typeCommand, 34);
+    else window.setTimeout(() => {
+      outputElement.textContent = output;
+      terminalIndex += 1;
+      window.setTimeout(typeTerminalLine, 320);
+    }, 180);
+  };
+  typeCommand();
+};
+const terminalObserver = new IntersectionObserver((entries, observer) => {
+  if (entries[0].isIntersecting) {
+    typeTerminalLine();
+    observer.disconnect();
+  }
+}, { threshold: 0.4 });
+terminalObserver.observe(document.querySelector('.terminal-wrap'));
+
+const contactForm = document.querySelector('#contact-form');
+const formNote = document.querySelector('#form-note');
+contactForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+  if (!contactForm.checkValidity()) {
+    formNote.textContent = 'Please complete each field with a valid value.';
+    contactForm.reportValidity();
+    return;
+  }
+  formNote.textContent = 'Thanks. Connect your form service to send this message.';
+  showToast('Message ready to be connected.');
+  contactForm.reset();
+});
